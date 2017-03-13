@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  fe:
+    build: ./fe/
+   #image: mangirdas/go-example-fe:latest
+    container_name: fe
+    ports: ["8080:8080"]
+    environment:
+     - API_SVC=http://localhost:8000
+    links:
+      - "api:api"
+
+  api:
+    build: ./api/
+    #image: mangirdas/go-example-api:latest
+    container_name: api
+    ports: ["8000:8000"]
+    restart: always
+   # environment:
+   #  - TIME_BOMB=true
