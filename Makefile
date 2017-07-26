@@ -25,20 +25,24 @@ docker-run: docker-build
 
 ########################### OCP builds
 
-ocp-build-fe: go-build-fe
+ocp-new-build-fe: go-build-fe
 	echo "Create NEW EMPTY Build" ; \
 	echo "##########################" ;\
 	echo "oc new-build --name fe --binary"
 	echo "##########################" ;\
 	oc new-build --name fe --binary
 	sleep 5 ; echo "" ;\
+	make ocp-start-build-fe
+
+ocp-start-build-fe: go-build-fe
 	echo "Build FE Container" ; \
 	echo "##########################" ;\
 	echo "oc start-build fe --from-file=fe/ --follow"
 	echo "##########################" ;\
 	oc start-build fe --from-file=fe/ --follow
+	echo "can now tag is desired oc tag fe:latest fe:x.y.z"
 
-ocp-build-api:  go-build-api
+ocp-new-build-api:  go-build-api
 	echo "Create NEW EMPTY Build" ; \
 	echo "##########################" ;\
 	echo "oc new-build --name api --binary"
@@ -50,6 +54,16 @@ ocp-build-api:  go-build-api
 	echo "oc start-build api --from-file=api/ --follow"
 	echo "##########################" ;\
 	oc start-build api --from-file=api/ --follow
+	echo "can now tag as desired oc tag api:latest api:x.y.z"
+
+ocp-start-build-api: go-build-api
+	echo "Build API Container" ; \
+	echo "##########################" ;\
+	echo "oc start-build api --from-file=api/ --follow"
+	echo "##########################" ;\
+	oc start-build api --from-file=api/ --follow
+	echo "can now tag as desired oc tag api:latest api:x.y.z"
+
 
 ocp-build: ocp-build-api ocp-build-fe
 
@@ -59,13 +73,15 @@ ocp-run-api:
 	echo "oc new-app --name api --image-stream=api -e=API_IP=0.0.0.0 -e=API_PORT=8080" ;\
 	echo "##########################" ;\
 	oc new-app --name api --image-stream=api -e=API_IP=0.0.0.0 -e=API_PORT=8080
+	#oc new-app --name logspout bekt/logspout-logstash:latest -e=ROUTE_URIS=logstash://logstash:5000 -e=DOCKER_LABELS=true
+	#oc new-app --name logstash basi/logstash:v0.8.0 -e=ROUTE_URIS=logstash://logstash:5000 -e=DOCKER_LABELS=true
 
 ocp-run-fe:
 	echo "Run API image" ; \
 	echo "##########################" ;\
-	echo "pc new-app --name fe --image-stream=fe -e=FE_IP=0.0.0.0 -e=FE_PORT=8080 -e=API_SVC=http://api-demo.apps.192.168.2.187.xip.io" ;\
+	echo "oc new-app --name fe --image-stream=fe -e=FE_IP=0.0.0.0 -e=FE_PORT=8080 -e=API_SVC=http://api-test-project.beta-7.cor00005.cna.ukcloud.com" ;\
 	echo "##########################" ;\
-	oc new-app --name fe --image-stream=fe -e=FE_IP=0.0.0.0 -e=FE_PORT=8080 -e=API_SVC=http://api-demo.apps.192.168.2.187.xip.io
+	oc new-app --name fe --image-stream=fe -e=FE_IP=0.0.0.0 -e=FE_PORT=8080 -e=API_SVC=http://api-myproject.127.0.0.1.nip.io
 
 ocp-expose:
 	echo "Expose services" ; \

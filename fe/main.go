@@ -30,7 +30,7 @@ import (
 	"strings"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/mangirdaz/go-example-app/config"
+	"github.com/bobbydeveaux/go-example-app/config"
 )
 
 func init() {
@@ -76,9 +76,10 @@ var indexTemplate = template.Must(template.ParseFiles("/deployment/index.tmpl"))
 
 // Index is a data structure used to populate an indexTemplate.
 type Index struct {
-	Title string
-	Body  string
-	Links []Link
+	Title    string
+	Body     string
+	Links    []Link
+	Revealed string
 }
 
 type Link struct {
@@ -89,8 +90,9 @@ type Link struct {
 func (hn Handlers) indexHandler(w http.ResponseWriter, r *http.Request) {
 	log.Info("/ hit")
 	data := &Index{
-		Title: "Image gallery",
-		Body:  "Welcome to the image gallery.",
+		Title:    "UKCloud Image gallery",
+		Body:     "Welcome to the UKCloud gallery.",
+		Revealed: config.Get("EnvAPIPassword"),
 	}
 
 	// images specifies the site content: a collection of images.
