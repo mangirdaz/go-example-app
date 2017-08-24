@@ -1,6 +1,10 @@
 node('master') {
-  stage('Build FE Bin') {
+  stage('FE Unit Tests') {
     git url: "https://github.com/bobbydeveaux/go-example-app.git"
+    sh "make get-deps"
+    sh "make go-test-fe"
+  }
+  stage('Build FE Bin') {
     sh "make get-deps"
     sh "make go-build-fe"
   }

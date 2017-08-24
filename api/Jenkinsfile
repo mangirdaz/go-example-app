@@ -1,4 +1,9 @@
 node('master') {
+  stage('API Unit Tests') {
+    git url: "https://github.com/bobbydeveaux/go-example-app.git"
+    sh "make get-deps"
+    sh "make go-test-api"
+  }
   stage('Build API Bin') {
     git url: "https://github.com/bobbydeveaux/go-example-app.git"
     sh "make get-deps"

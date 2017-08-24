@@ -5,7 +5,14 @@ TEST?=./...
 get-deps:
 	@echo "==> Fetching dependencies"
 	@go get -v -d $(TEST)
-	
+
+go-test-api:
+	cd api/
+	go list ./... | xargs -n1 go test -timeout=60s -parallel=10
+
+go-test-fe:
+	cd fe/
+	go list ./... | xargs -n1 go test -timeout=60s -parallel=10
 
 go-build-api:
 	echo "Build GO Single Binary" ; \
