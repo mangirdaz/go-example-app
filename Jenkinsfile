@@ -1,7 +1,8 @@
 node('master') {
   stage('Build FE Bin') {
     git url: "https://github.com/bobbydeveaux/go-example-app.git"
-    sh "cd fe/ && CGO_ENABLED=0 GOOS=linux go build -o fe . "
+    sh "make get-deps"
+    sh "make go-build-fe"
   }
   stage('Build Image') {
     unstash name:"jar"
