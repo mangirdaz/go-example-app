@@ -13,5 +13,6 @@ node('master') {
   }
   stage('System Test') {
     sh "curl -s -X GET http://fe:8080/ | grep 'UKCloud Image gallery'"
+    sh "exit 0"
   }
 }
