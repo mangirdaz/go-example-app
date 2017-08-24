@@ -1,6 +1,12 @@
 MAKEFLAGS += --silent
+TEST?=./...
 
 #########################   docker build
+get-deps:
+	@echo "==> Fetching dependencies"
+	@go get -v $(TEST)
+	
+
 go-build-api:
 	echo "Build GO Single Binary" ; \
 	echo "##########################" ;\
@@ -91,6 +97,13 @@ ocp-expose:
 	oc expose service fe ; \
 	oc expose service api ; \
 	oc get route
+
+ocp-add-secret:
+	echo -n "password2" > password.txt
+	cat password.txt
+	oc secret new api-password password=password.txt
+	oc describe secrets api-password
+	oc env dc/fe  --prefix=API_ --from=secret/api-password
 
 ocp-run: ocp-run-api ocp-run-fe ocp-expose
 
