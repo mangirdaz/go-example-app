@@ -7,7 +7,7 @@ import (
 	"time"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/mangirdaz/go-example-app/config"
+	"github.com/bobbydeveaux/go-example-app/config"
 )
 
 func init() {

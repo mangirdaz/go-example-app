@@ -17,7 +17,27 @@ items:
     strategy:
       type: JenkinsPipeline
       jenkinsPipelineStrategy:
-        jenkinsfilePath: Jenkinsfile
+        jenkinsfilePath: ./fe/Jenkinsfile
+    triggers:
+    - generic:
+        secret: RandomPassword123
+      type: Generic
+- apiVersion: v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      pipeline.alpha.openshift.io/uses: '[{"name": "api", "namespace": "", "kind": "DeploymentConfig"}]'
+    name: api-service-pipeline
+  spec:
+    source:
+      git:
+        ref: master
+        uri: https://github.com/bobbydeveaux/go-example-app.git
+      type: Git
+    strategy:
+      type: JenkinsPipeline
+      jenkinsPipelineStrategy:
+        jenkinsfilePath: ./api/Jenkinsfile
     triggers:
     - generic:
         secret: RandomPassword123
