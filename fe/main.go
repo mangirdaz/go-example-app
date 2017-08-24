@@ -90,7 +90,7 @@ type Link struct {
 func (hn Handlers) indexHandler(w http.ResponseWriter, r *http.Request) {
 	log.Info("/ hit")
 	data := &Index{
-		Title:    "UKCloud Image gallery",
+		Title:    "UKCloud Image Gallery",
 		Body:     "Welcome to the UKCloud gallery.",
 		Revealed: config.Get("EnvAPIPassword"),
 	}
