@@ -5,6 +5,7 @@ node('master') {
     sh "make go-build-fe"
   }
   stage('Build Image') {
+    sh "oc project myproject"
     sh "oc start-build fe --from-file=fe/ --follow"
   }
   stage('Deploy') {
