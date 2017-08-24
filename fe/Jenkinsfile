@@ -12,7 +12,7 @@ node('master') {
     openshiftVerifyDeployment depCfg: 'fe', replicaCount: 1, verifyReplicaCount: true
   }
   stage('System Test') {
-    sh "curl -s -X GET http://fe:8080/ | grep 'UKCloud Image gallery'"
+    sh "curl -s -X GET http://fe:8080/"
     sh "exit 0"
   }
 }
