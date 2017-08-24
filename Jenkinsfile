@@ -5,7 +5,6 @@ node('master') {
     sh "make go-build-fe"
   }
   stage('Build Image') {
-    unstash name:"jar"
     sh "oc start-build fe --from-file=fe/ --follow"
   }
   stage('Deploy') {
