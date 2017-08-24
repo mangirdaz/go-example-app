@@ -4,7 +4,7 @@ TEST?=./...
 #########################   docker build
 get-deps:
 	@echo "==> Fetching dependencies"
-	@go get -v $(TEST)
+	@go get -v -d $(TEST)
 	
 
 go-build-api:
