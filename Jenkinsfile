@@ -8,7 +8,7 @@ node('master') {
     sh "oc start-build fe --from-file=fe/ --follow"
   }
   stage('Deploy') {
-    openshiftDeploy depCfg: 'fe'
+    openshiftDeploy depCfg: 'fe', namespace: 'myproject'
     openshiftVerifyDeployment depCfg: 'fe', replicaCount: 1, verifyReplicaCount: true
   }
   stage('System Test') {
