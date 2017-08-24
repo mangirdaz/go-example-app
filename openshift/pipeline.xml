@@ -6,7 +6,7 @@ items:
   kind: BuildConfig
   metadata:
     annotations:
-      pipeline.alpha.openshift.io/uses: '[{"name": "fe", "namespace": "myproject", "kind": "DeploymentConfig"}]'
+      pipeline.alpha.openshift.io/uses: '[{"name": "fe", "namespace": "", "kind": "DeploymentConfig"}]'
     name: fe-service-pipeline
   spec:
     source:

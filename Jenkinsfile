@@ -5,11 +5,10 @@ node('master') {
     sh "make go-build-fe"
   }
   stage('Build Image') {
-    sh "oc project myproject"
     sh "oc start-build fe --from-file=fe/ --follow"
   }
   stage('Deploy') {
-    openshiftDeploy depCfg: 'fe', namespace: 'myproject'
+    openshiftDeploy depCfg: 'fe', namespace: 'ci'
     openshiftVerifyDeployment depCfg: 'fe', replicaCount: 1, verifyReplicaCount: true
   }
   stage('System Test') {
