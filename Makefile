@@ -60,12 +60,7 @@ ocp-new-build-api:  go-build-api
 	echo "##########################" ;\
 	oc new-build --name api --binary
 	sleep 5 ; echo "" ;\
-	echo "Build API Container" ; \
-	echo "##########################" ;\
-	echo "oc start-build api --from-file=api/ --follow"
-	echo "##########################" ;\
-	oc start-build api --from-file=api/ --follow
-	echo "can now tag as desired oc tag api:latest api:x.y.z"
+	make ocp-start-build-api
 
 ocp-start-build-api: go-build-api
 	echo "Build API Container" ; \

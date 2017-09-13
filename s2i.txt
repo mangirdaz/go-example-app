@@ -1,0 +1,8 @@
+
+oc new-project wordpress
+
+oc new-app https://github.com/WordPress/WordPress --name wordpress --strategy=source 
+
+oc new-app mysql --name=mysql -e MYSQL_USER=wordpress \
+								  MYSQL_PASSWORD=secure123 \
+  							      MYSQL_DATABASE=wordpress

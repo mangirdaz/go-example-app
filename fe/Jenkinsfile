@@ -1,5 +1,5 @@
 node('master') {
-  stage('FE Unit Tests') {
+  stage('API Unit Tests') {
     git url: "https://github.com/bobbydeveaux/go-example-app.git"
     sh "make get-deps"
     sh "make go-test-fe"
