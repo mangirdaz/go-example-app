@@ -85,9 +85,9 @@ ocp-run-api:
 ocp-run-fe:
 	echo "Run API image" ; \
 	echo "##########################" ;\
-	echo "oc new-app --name fe --image-stream=fe -e=FE_IP=0.0.0.0 -e=FE_PORT=8080 -e=API_SVC=http://api-test-project.beta-7.cor00005.cna.ukcloud.com" ;\
+	echo "oc new-app --name fe --image-stream=fe -e=FE_IP=0.0.0.0 -e=FE_PORT=8080 -e=API_SVC=http://api-ci.beta-7.cor00005.cna.ukcloud.com" ;\
 	echo "##########################" ;\
-	oc new-app --name fe --image-stream=fe -e=FE_IP=0.0.0.0 -e=FE_PORT=8080 -e=API_SVC=http://api-myproject.127.0.0.1.nip.io
+	oc new-app --name fe --image-stream=fe -e=FE_IP=0.0.0.0 -e=FE_PORT=8080 -e=API_SVC=http://api-ci.127.0.0.1.nip.io
 
 ocp-expose:
 	echo "Expose services" ; \
@@ -99,11 +99,17 @@ ocp-expose:
 	oc get route
 
 ocp-add-secret:
-	echo -n "password2" > password.txt
-	cat password.txt
-	oc secret new api-password password=password.txt
-	oc describe secrets api-password
-	oc env dc/fe  --prefix=API_ --from=secret/api-password
+	echo -n "mysecret" > password.txt; \
+	cat password.txt; \
+	oc secret new api-password password=password.txt; \
+	oc describe secrets api-password; \
+	oc env dc/fe  --prefix=API_ --from=secret/api-password; \
+
+ocp-update-secret:
+	pgg > password.txt; \
+	oc delete secret api-password; \
+	oc secret new api-password password=password.txt; \
+	oc rollout latest fe; \
 
 ocp-run: ocp-run-api ocp-run-fe ocp-expose
 
