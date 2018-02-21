@@ -18,6 +18,7 @@ const (
 	//basic auth enabled or not
 	DefaultBasicAuthentication = false
 	DefaultTimeBomb            = false
+	DefaultAPIPassword         = "default"
 
 	//frontend defaults
 	DefaultFEPort = "8080"
@@ -30,6 +31,7 @@ const (
 	EnvFEIP          = "FE_IP"
 	EnvBasicAuth     = "API_BASIC_AUTH"
 	EnvAPIServiceURL = "API_SVC"
+	EnvAPIPassword   = "API_PASSWORD"
 
 	EnvTimeBomb = "TIME_BOMB"
 )
@@ -72,6 +74,10 @@ func Get(variable string) string {
 		"EnvAPIServiceURL": {
 			Default:     DefaultAPIServiceURL,
 			Environment: EnvAPIServiceURL,
+		},
+		"EnvAPIPassword": {
+			Default:     DefaultAPIPassword,
+			Environment: EnvAPIPassword,
 		},
 		"EnvTimeBomb": {
 			Default:     strconv.FormatBool(DefaultTimeBomb),

@@ -1,4 +1,4 @@
-FROM docker.io/library/golang
+FROM golang:1.8
 MAINTAINER mangirdas@judeikis.lt
 RUN mkdir /deployment
 COPY       fe /deployment/fe

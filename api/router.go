@@ -6,9 +6,9 @@ import (
 	"fmt"
 
 	log "github.com/Sirupsen/logrus"
+	"github.com/bobbydeveaux/go-example-app/config"
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
-	"github.com/mangirdaz/go-example-app/config"
 )
 
 func NewRouter() {

@@ -1,0 +1,22 @@
+node('master') {
+  stage('API Unit Tests') {
+    git url: "https://github.com/bobbydeveaux/go-example-app.git"
+    sh "make get-deps"
+    sh "make go-test-api"
+  }
+  stage('Build API Bin') {
+    sh "make get-deps"
+    sh "make go-build-api"
+  }
+  stage('Build Image') {
+    sh "oc start-build api --from-file=api/ --follow"
+  }
+  stage('Deploy') {
+    openshiftDeploy depCfg: 'api', namespace: 'ci'
+    openshiftVerifyDeployment depCfg: 'api', replicaCount: 1, verifyReplicaCount: true
+  }
+  stage('System Test') {
+    sh "curl -s -X GET http://api:8080/api/v1/img"
+    sh "exit 0"
+  }
+}

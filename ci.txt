@@ -1,0 +1,12 @@
+oc new-project ci
+oc new-build --name jenkins-blueocean-go --binary
+oc start-build jenkins-blueocean-go --from-file=jenkins/slave-go/ --follow
+
+ oc new-app jenkins-ephemeral \
+    -p NAMESPACE=ci \
+    -p JENKINS_IMAGE_STREAM_TAG=jenkins-blueocean-go:latest \
+    -p MEMORY_LIMIT=2Gi
+
+
+oc create -f openshift/pipeline.yaml
+

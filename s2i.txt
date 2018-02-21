@@ -1,0 +1,37 @@
+
+oc new-project wordpress
+
+oc new-app https://github.com/WordPress/WordPress --name wordpress --strategy=source 
+
+oc new-app mysql --name=mysql -e MYSQL_USER=wordpress \
+								  MYSQL_PASSWORD=secure123 \
+  							      MYSQL_DATABASE=WordPress
+
+
+----
+
+oc new-app https://github.com/bobbydeveaux/php-show-my-hostname --name=showmyhostname
+
+oc set env dc/showmyhostname ROUTER_TCP_BALANCE_SCHEME=roundrobin
+
+oc annotate routes showmyhostname haproxy.router.openshift.io/disable_cookies='true'
+
+oc new-app https://github.com/bobbydeveaux/php-show-my-hostname --name=showmyhostname2
+
+
+
+
+
+----
+
+
+ssh-keygen -t rsa -C "my_secret_key_for_OpenShift"
+Then, you upload the key to OpenShift:
+
+oc secrets new-sshauth sshsecret --ssh-privatekey=$HOME/.ssh/id_rsa
+After that, you provide this key to the builder service account:
+
+oc secrets add serviceaccount/builder secrets/sshsecret
+Finally, you need to update your build configuration:
+
+oc patch buildConfig myapp -p '{"spec":{"source":{"sourceSecret":{"name":"sshsecret"}}}}'
